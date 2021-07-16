@@ -34,7 +34,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               onChanged: (value) {
                 //Do something with the user input.
               },
-              decoration: kTextFieldDecoration,
+              decoration: kTextFieldDecoration.copyWith(
+                hintText: 'Enter your email',
+              ),
             ),
             SizedBox(
               height: 8.0,
@@ -43,15 +45,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               onChanged: (value) {
                 //Do something with the user input.
               },
-              decoration: kTextFieldDecoration,
+              decoration: kTextFieldDecoration.copyWith(
+                hintText: 'Enter your password',
+              ),
             ),
             SizedBox(
               height: 24.0,
             ),
             RoundButton(
-                text: 'Register',
-                color: Colors.blueAccent,
-                onPressed: () {}),
+                text: 'Register', color: Colors.blueAccent, onPressed: () {}),
           ],
         ),
       ),
