@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "348601641649",
+    "project_id": "flutter-flash-chat-ap20210716",
+    "storage_bucket": "flutter-flash-chat-ap20210716.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:348601641649:android:9c71190cb63bedf1d39090",
+        "android_client_info": {
+          "package_name": "com.astralprogrammer.flash_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "348601641649-2r8j0h2skdmqfrh8acvi0235m0ehjt00.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZ7R20SEpVmSedqqS4rtDQJTDRlJgc0Ao"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "348601641649-2r8j0h2skdmqfrh8acvi0235m0ehjt00.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
