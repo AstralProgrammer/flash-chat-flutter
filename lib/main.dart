@@ -6,7 +6,7 @@ import 'package:flash_chat/screens/registration_screen.dart';
 import 'package:flash_chat/screens/chat_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-// changed void main() => runApp(FlashChat()); into this to make `[core/no-app] No Firebase App '[DEFAULT]' has been created - call Firebase.initializeApp()` error go away
+// changed void main() => runApp(FlashChat()); into a new main() implementation to make `[core/no-app] No Firebase App '[DEFAULT]' has been created - call Firebase.initializeApp()` error go away
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
