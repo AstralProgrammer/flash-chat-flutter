@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 final _firestore = FirebaseFirestore.instance;
+User loggedInUser;
 
 class ChatScreen extends StatefulWidget {
   static const String id = 'chat_screen';
@@ -18,7 +19,6 @@ class _ChatScreenState extends State<ChatScreen> {
   final messageTextController = new TextEditingController();
 
   // FirebaseUser is now User in FirebaseAuth
-  User loggedInUser;
   String messageText;
 
   // store current user from firebase
@@ -130,10 +130,14 @@ class MessageStream extends StatelessWidget {
         for (var message in documents) {
           final textMessage = message.get('text');
           final textSender = message.get('sender');
+          final currentUser = loggedInUser.email;
+
           final messageWidget = MessageBubble(
             sender: textSender,
             message: textMessage,
+            isCurrent: currentUser == textSender
           );
+
           messageWidgets.add(messageWidget);
         }
 
@@ -152,15 +156,16 @@ class MessageStream extends StatelessWidget {
 class MessageBubble extends StatelessWidget {
   final String sender;
   final String message;
+  final bool isCurrent;
 
-  MessageBubble({this.sender, this.message});
+  MessageBubble({this.sender, this.message, this.isCurrent});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(10),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment: isCurrent ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
           Text(
             sender,
@@ -168,14 +173,20 @@ class MessageBubble extends StatelessWidget {
           ),
           Material(
             elevation: 5,
-            borderRadius: BorderRadius.circular(30),
-            color: Colors.blueAccent,
+            borderRadius: BorderRadius.only(
+              topLeft: isCurrent ? Radius.circular(30) : Radius.circular(0),
+              topRight: isCurrent ? Radius.circular(0) : Radius.circular(30),
+              bottomLeft: Radius.circular(30),
+              bottomRight: Radius.circular(30),
+            ),
+            color: isCurrent ? Colors.blueAccent : Colors.white,
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: Text(
                 message,
                 style: TextStyle(
                   fontSize: 15,
+                  color: isCurrent ? Colors.white : Colors.black54,
                 ),
               ),
             ),
