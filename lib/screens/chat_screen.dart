@@ -48,10 +48,8 @@ class _ChatScreenState extends State<ChatScreen> {
           IconButton(
               icon: Icon(Icons.close),
               onPressed: () {
-                messagesStream();
-                //Implement logout functionality
-                // _auth.signOut();
-                // Navigator.pop(context);
+                _auth.signOut();
+                Navigator.pop(context);
               }),
         ],
         title: Text('⚡️Chat'),
@@ -82,6 +80,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       _firestore.collection('messages').add({
                         'text': messageText,
                         'sender': loggedInUser.email,
+                        'created_at': Timestamp.now(),
                       });
                       // clear the input text fields
                       messageTextController.clear();
@@ -98,15 +97,6 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
       ),
     );
-  }
-
-  void messagesStream() async {
-    // snapshot() subscribe into a stream
-    await for (var snap in _firestore.collection('messages').snapshots()) {
-      for (var message in snap.docs) {
-        print(message.data());
-      }
-    }
   }
 }
 
@@ -133,22 +123,22 @@ class MessageStream extends StatelessWidget {
           final currentUser = loggedInUser.email;
 
           final messageWidget = MessageBubble(
-            sender: textSender,
-            message: textMessage,
-            isCurrent: currentUser == textSender
-          );
+              sender: textSender,
+              message: textMessage,
+              isCurrent: currentUser == textSender);
 
           messageWidgets.add(messageWidget);
         }
 
         return Expanded(
           child: ListView(
+            reverse: true,
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
             children: messageWidgets,
           ),
         );
       },
-      stream: _firestore.collection('messages').snapshots(),
+      stream: _firestore.collection('messages').orderBy('created_at', descending: true).snapshots(),
     );
   }
 }
@@ -165,7 +155,8 @@ class MessageBubble extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(10),
       child: Column(
-        crossAxisAlignment: isCurrent ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+        crossAxisAlignment:
+            isCurrent ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
           Text(
             sender,
